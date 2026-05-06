@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Getting started with ibkrcp</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Getting started with ibkrcp</h1>
+
+
+
+<div id="overview" class="section level2">
+<h2>Overview</h2>
+<p><code>ibkrcp</code> provides a lightweight R interface to the <a href="https://ibkrcampus.com/campus/ibkr-api-page/cpapi-v1/">Interactive
+Brokers Client Portal REST API</a>. It covers the four areas you need
+for programmatic trading:</p>
+<ul>
+<li>Session management (authenticate, keepalive, re-authenticate)</li>
+<li>Account and portfolio queries (balances, positions)</li>
+<li>Market data (contract lookup, price history, trading schedule)</li>
+<li>Order management (place, inspect, cancel)</li>
+</ul>
+</div>
+<div id="prerequisites" class="section level2">
+<h2>Prerequisites</h2>
+<p><code>ibkrcp</code> communicates with the IBKR Client Portal Gateway
+— a lightweight Java process that must be running locally and
+authenticated before any function in this package will work.</p>
+<p><strong>Setup steps:</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Download the Client Portal Gateway from the <a href="https://ibkrcampus.com/campus/ibkr-api-page/cpapi-v1/#client-portal-gw">IBKR
+API page</a></p></li>
+<li><p>Unzip and start the gateway from a terminal:</p>
+<pre><code>java -jar root/run.jar root/conf.yaml</code></pre></li>
+<li><p>Open <code>https://localhost:5000</code> in your browser and log
+in with your IBKR credentials</p></li>
+<li><p>Confirm the session is live before making any API calls</p></li>
+</ol>
+<p>The gateway exposes the REST API on
+<code>https://localhost:5000</code> and uses a self-signed certificate.
+<code>ibkrcp</code> disables SSL verification for all requests — this is
+intentional and necessary for localhost communication.</p>
+<p>Sessions time out after approximately 5 minutes without activity.
+Call <code>ibkr_tickle()</code> regularly to keep the session alive.</p>
+</div>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># install.packages(&quot;pak&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pak</span>(<span class="st">&quot;sactyr/ibkrcp&quot;</span>)</span></code></pre></div>
+</div>
+<div id="a-complete-trading-workflow" class="section level2">
+<h2>A complete trading workflow</h2>
+<p>The sections below walk through a full end-to-end workflow: starting
+the session, finding an instrument, fetching price history, and placing
+an order.</p>
+<div id="session-management" class="section level3">
+<h3>1. Session management</h3>
+<p>Always start by confirming the gateway is running and
+authenticated:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ibkrcp)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Verify the session is alive and authenticated — stops with an error if not</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">ibkr_tickle</span>()</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co"># Check the raw authentication status</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">ibkr_auth_status</span>()</span></code></pre></div>
+<p>If the session has timed out but the gateway is still running,
+re-authenticate without restarting the gateway:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">ibkr_reauthenticate</span>()</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">Sys.sleep</span>(<span class="dv">3</span>)       <span class="co"># wait a few seconds for the session to restore</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="fu">ibkr_tickle</span>()      <span class="co"># confirm it is back</span></span></code></pre></div>
+</div>
+<div id="account-and-portfolio" class="section level3">
+<h3>2. Account and portfolio</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># List all accounts associated with your login</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>accounts <span class="ot">&lt;-</span> <span class="fu">ibkr_get_accounts</span>()</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>accounts</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="co">#&gt;   account_id      type currency           alias</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a><span class="co">#&gt; 1   U1234567 INDIVIDUAL      AUD Paper Trading</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>account_id <span class="ot">&lt;-</span> accounts<span class="sc">$</span>account_id[<span class="dv">1</span>]</span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a><span class="co"># High-level portfolio summary: cash, net liquidation, available funds</span></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">ibkr_get_summary</span>(account_id)</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a><span class="co"># Current open positions</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>positions <span class="ot">&lt;-</span> <span class="fu">ibkr_get_positions</span>(account_id)</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>positions</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a><span class="co">#&gt;       conid symbol position mkt_price mkt_value avg_cost unrealised_pnl currency</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a><span class="co">#&gt; 1 123456789 VGS.AX      100    120.50     12050   115.00            550      AUD</span></span></code></pre></div>
+</div>
+<div id="finding-a-contract-id" class="section level3">
+<h3>3. Finding a contract ID</h3>
+<p>IBKR identifies every instrument by a numeric contract ID (conid).
+Use <code>ibkr_search_contracts()</code> to find the conid for an
+ASX-listed ETF:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>contracts <span class="ot">&lt;-</span> <span class="fu">ibkr_search_contracts</span>(<span class="st">&quot;VGS&quot;</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>contracts</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#&gt;       conid symbol                                  company_name description company_header</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#&gt; 1 123456789    VGS  Vanguard MSCI Index International Shares ETF    ASX:VGS    VGS - ASX</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="co"># Filter to ASX listing</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>conid <span class="ot">&lt;-</span> contracts<span class="sc">$</span>conid[<span class="fu">grepl</span>(<span class="st">&quot;ASX&quot;</span>, contracts<span class="sc">$</span>company_header)]</span></code></pre></div>
+</div>
+<div id="market-data" class="section level3">
+<h3>4. Market data</h3>
+<div id="price-history" class="section level4">
+<h4>Price history</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Daily OHLCV bars for the past year</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>prices <span class="ot">&lt;-</span> <span class="fu">ibkr_get_price_history</span>(conid, <span class="at">period =</span> <span class="st">&quot;1y&quot;</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">head</span>(prices)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="co">#&gt;         date   open   high    low  close volume</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt; 1 2025-05-01 119.00 121.00 118.50 120.50  50000</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt; 2 2025-05-02 120.50 122.00 119.80 121.30  48000</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># Available period strings: &quot;1m&quot;, &quot;3m&quot;, &quot;6m&quot;, &quot;1y&quot;, &quot;2y&quot;, &quot;3y&quot;, &quot;5y&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>prices_3m <span class="ot">&lt;-</span> <span class="fu">ibkr_get_price_history</span>(conid, <span class="at">period =</span> <span class="st">&quot;3m&quot;</span>)</span></code></pre></div>
+</div>
+<div id="trading-schedule" class="section level4">
+<h4>Trading schedule</h4>
+<p>Use the trading schedule to distinguish trading days from public
+holidays before submitting orders:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>schedule <span class="ot">&lt;-</span> <span class="fu">ibkr_get_trading_schedule</span>(<span class="at">symbol =</span> <span class="st">&quot;VGS&quot;</span>, <span class="at">exchange =</span> <span class="st">&quot;ASX&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">head</span>(schedule)</span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#&gt;         date is_trading                 sessions</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#&gt; 1 2026-05-04       TRUE 100000-160000</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="co">#&gt; 2 2026-05-05      FALSE              &lt;NA&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co"># Trading days only</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>trading_days <span class="ot">&lt;-</span> schedule[schedule<span class="sc">$</span>is_trading, <span class="st">&quot;date&quot;</span>]</span></code></pre></div>
+</div>
+</div>
+<div id="order-management" class="section level3">
+<h3>5. Order management</h3>
+<div id="placing-an-order" class="section level4">
+<h4>Placing an order</h4>
+<p><code>ibkr_place_order()</code> places a DAY market order and
+automatically handles any confirmation prompts returned by the API:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ibkr_place_order</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="at">account_id =</span> account_id,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="at">conid      =</span> conid,</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="at">side       =</span> <span class="st">&quot;BUY&quot;</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">quantity   =</span> <span class="dv">10</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; Order placed: BUY 10 shares (conid 123456789) for account U1234567</span></span></code></pre></div>
+</div>
+<div id="inspecting-open-orders" class="section level4">
+<h4>Inspecting open orders</h4>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>orders <span class="ot">&lt;-</span> <span class="fu">ibkr_get_orders</span>()</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>orders</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co">#&gt;   order_id     conid symbol side order_type quantity    status</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co">#&gt; 1     1001 123456789 VGS.AX  BUY        MKT       10 Submitted</span></span></code></pre></div>
+</div>
+<div id="cancelling-an-order" class="section level4">
+<h4>Cancelling an order</h4>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ibkr_cancel_order</span>(account_id, <span class="at">order_id =</span> <span class="st">&quot;1001&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#&gt; Order 1001 cancelled for account U1234567</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div id="function-reference" class="section level2">
+<h2>Function reference</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>ibkr_tickle()</code></td>
+<td>Confirm session is alive and authenticated</td>
+</tr>
+<tr class="even">
+<td><code>ibkr_auth_status()</code></td>
+<td>Get raw authentication status</td>
+</tr>
+<tr class="odd">
+<td><code>ibkr_reauthenticate()</code></td>
+<td>Request session re-authentication</td>
+</tr>
+<tr class="even">
+<td><code>ibkr_get_accounts()</code></td>
+<td>List all accounts</td>
+</tr>
+<tr class="odd">
+<td><code>ibkr_get_summary()</code></td>
+<td>Portfolio summary for an account</td>
+</tr>
+<tr class="even">
+<td><code>ibkr_get_positions()</code></td>
+<td>Open positions for an account</td>
+</tr>
+<tr class="odd">
+<td><code>ibkr_search_contracts()</code></td>
+<td>Search for contracts by symbol</td>
+</tr>
+<tr class="even">
+<td><code>ibkr_get_price_history()</code></td>
+<td>Daily OHLCV price history</td>
+</tr>
+<tr class="odd">
+<td><code>ibkr_get_trading_schedule()</code></td>
+<td>Exchange trading schedule</td>
+</tr>
+<tr class="even">
+<td><code>ibkr_place_order()</code></td>
+<td>Place a market order</td>
+</tr>
+<tr class="odd">
+<td><code>ibkr_get_orders()</code></td>
+<td>List open orders</td>
+</tr>
+<tr class="even">
+<td><code>ibkr_cancel_order()</code></td>
+<td>Cancel an open order</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
