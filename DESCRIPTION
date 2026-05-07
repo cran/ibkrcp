@@ -1,13 +1,12 @@
 Package: ibkrcp
 Title: R Client for the Interactive Brokers Client Portal API
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Nagappan", "Karuppiah", , "sactyr@gmail.com", role = c("aut", "cre"))
 Description: Provides a lightweight R interface to the Interactive Brokers (IBKR)
-    Client Portal REST API <https://www.interactivebrokers.com/campus/ibkr-api-page/cpapi-v1/>.
-    Functions cover session management, account and portfolio queries, market 
-    data retrieval, and order placement and cancellation. Requires a locally 
-    running IBKR Client Portal Gateway.
+    Client Portal REST API. Functions cover session management, account and portfolio
+    queries, market data retrieval, and order placement and cancellation. Requires a
+    locally running IBKR Client Portal Gateway.
 License: MIT + file LICENSE
 Depends: R (>= 4.1.0)
 Encoding: UTF-8
@@ -20,8 +19,8 @@ Config/roxygen2/version: 8.0.0
 VignetteBuilder: knitr
 Language: en-US
 NeedsCompilation: no
-Packaged: 2026-05-04 04:59:14 UTC; sactyr
+Packaged: 2026-05-07 06:59:11 UTC; sactyr
 Author: Nagappan Karuppiah [aut, cre]
 Maintainer: Nagappan Karuppiah <sactyr@gmail.com>
 Repository: CRAN
-Date/Publication: 2026-05-06 19:50:02 UTC
+Date/Publication: 2026-05-07 08:20:02 UTC
